@@ -1,0 +1,10 @@
+FROM rust:1.85-bookworm AS build
+WORKDIR /src
+COPY server/nmn-source ./
+RUN cargo build --release --locked
+FROM debian:bookworm-slim
+RUN useradd --system --no-create-home arcade
+COPY --from=build /src/target/release/nmn-server /usr/local/bin/nmn-server
+USER arcade
+EXPOSE 27750/udp
+CMD ["nmn-server", "--bind", "0.0.0.0", "--port", "27750", "--name", "WebXR Arcade", "--max-per-ip", "256", "--max-session-min", "180", "--quiet"]

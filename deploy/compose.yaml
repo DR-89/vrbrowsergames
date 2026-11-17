@@ -1,0 +1,20 @@
+services:
+  lobby:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.lobby
+    restart: unless-stopped
+    init: true
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.web
+    restart: unless-stopped
+    init: true
+    depends_on: [lobby]
+    ports: ["127.0.0.1:8094:8094"]
+    environment:
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN in deploy/.env to the HTTPS origin}
+      NMN_HOST: lobby
+      MAX_CONNECTIONS: "256"
+      MAX_PER_IP: "256"

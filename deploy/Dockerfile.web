@@ -1,0 +1,10 @@
+FROM node:24-bookworm-slim
+WORKDIR /app
+COPY server/package.json server/package-lock.json ./server/
+RUN cd server && npm ci --omit=dev --ignore-scripts
+COPY server ./server
+COPY site ./site
+ENV HOST=0.0.0.0 PORT=8094 SITE_ROOT=/app/site
+USER node
+EXPOSE 8094
+CMD ["node", "server/server.mjs"]

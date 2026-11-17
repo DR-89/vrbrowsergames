@@ -1,0 +1,6 @@
+export function multiply(a,b){return [a[3]*b[0]+a[0]*b[3]+a[1]*b[2]-a[2]*b[1],a[3]*b[1]-a[0]*b[2]+a[1]*b[3]+a[2]*b[0],a[3]*b[2]+a[0]*b[1]-a[1]*b[0]+a[2]*b[3],a[3]*b[3]-a[0]*b[0]-a[1]*b[1]-a[2]*b[2]];}
+export function rotate(q,p){const t=[2*(q[1]*p[2]-q[2]*p[1]),2*(q[2]*p[0]-q[0]*p[2]),2*(q[0]*p[1]-q[1]*p[0])];return [p[0]+q[3]*t[0]+q[1]*t[2]-q[2]*t[1],p[1]+q[3]*t[1]+q[2]*t[0]-q[0]*t[2],p[2]+q[3]*t[2]+q[0]*t[1]-q[1]*t[0]];}
+export function viewMatrix(p,q){q=[-q[0],-q[1],-q[2],q[3]];const x=rotate(q,[1,0,0]),y=rotate(q,[0,1,0]),z=rotate(q,[0,0,1]),t=rotate(q,p.map(v=>-v));return [...x,0,...y,0,...z,0,...t,1];}
+export function perspective(fov,aspect,near=.02,far=10000){const f=1/Math.tan(fov/2);return [f/aspect,0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0];}
+export function originFrom(pose){const p=pose.transform.position,q=pose.transform.orientation;const front=rotate([q.x,q.y,q.z,q.w],[0,0,-1]),a=Math.atan2(-front[0],-front[2])/2;return {p:[p.x,p.y,p.z],q:[0,-Math.sin(a),0,Math.cos(a)]};}
+export function relative(transform,origin){const p=transform.position,q=transform.orientation;return {p:rotate(origin.q,[p.x-origin.p[0],p.y-origin.p[1],p.z-origin.p[2]]),q:multiply(origin.q,[q.x,q.y,q.z,q.w])};}

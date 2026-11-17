@@ -1,0 +1,4 @@
+Source: https://github.com/spacestate1/namco22-decompile/tree/8f2ed7f4ed5c3fb5fecbbd29bbf6a6bf13876b2c/server
+Revision: 8f2ed7f4ed5c3fb5fecbbd29bbf6a6bf13876b2c
+Unmodified Rust source. Cargo.toml declares GPL-2.0-or-later; the upstream repository also includes the retained MIT license.
+Build: cargo build --release --locked

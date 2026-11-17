@@ -1,0 +1,6 @@
+# Set this same HTTPS origin in deploy/.env (PUBLIC_ORIGIN).
+arcade.example.com {
+    reverse_proxy 127.0.0.1:8094
+}
+# The backend provides isolation headers and /online WebSocket upgrades.
+# .gz assets are explicitly decompressed by the app: no Content-Encoding: gzip.
